@@ -1,0 +1,11 @@
+#simpleTooltip {
+		padding: 3px;
+		border: 1px solid #CCC;
+		background-image:url(/images/background/tooltip-background.png);
+		background-color:#FFF;
+		font-weight:bold;
+		font-size:9px;
+		height:auto;
+		width:auto;
+		vertical-align:middle;
+}
