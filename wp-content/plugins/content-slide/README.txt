@@ -18,10 +18,10 @@ Created using <a href="http://workshop.rs/projects/coin-slider/" title="Jquery C
 
 <h2>DEMO</h2>
 <ul>
-<li>Rotating Banners. <a href="http://wppremium.info/" target="_blank">Demo 1</a></li>
+<li>Demo Without Navigation <a href="http://themeforwordpress.org" target="_blank" title="theme for wordpress">theme for wordpress</a></li>
+<li>Rotating Banners. <a href="http://wppremium.info/" target="_blank" title="wordpress premium themes">Demo 1</a></li>
 <li>Demo With Navigation <a href="http://wptuts.info/wp-content-slide/" target="_blank">Content Slide Plugin</a></li>
 <li>Demo Without Navigation <a href="http://www.graphictuning.com/" target="_blank">Product Example</a></li>
-<li>Demo Without Navigation <a href="http://www.css-trends.com/" target="_blank">Banner Example</a></li>
 </ul>
 
 == Check my other new plugin ==

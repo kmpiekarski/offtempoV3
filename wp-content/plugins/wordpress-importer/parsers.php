@@ -57,7 +57,24 @@ class WXR_Parser_SimpleXML {
 		$authors = $posts = $categories = $tags = $terms = array();
 
 		$internal_errors = libxml_use_internal_errors(true);
-		$xml = simplexml_load_file( $file );
+
+		$dom = new DOMDocument;
+		$old_value = null;
+		if ( function_exists( 'libxml_disable_entity_loader' ) ) {
+			$old_value = libxml_disable_entity_loader( true );
+		}
+		$success = $dom->loadXML( file_get_contents( $file ) );
+		if ( ! is_null( $old_value ) ) {
+			libxml_disable_entity_loader( $old_value );
+		}
+
+		if ( ! $success || isset( $dom->doctype ) ) {
+			return new WP_Error( 'SimpleXML_parse_error', __( 'There was an error when reading this WXR file', 'wordpress-importer' ), libxml_get_errors() );
+		}
+
+		$xml = simplexml_import_dom( $dom );
+		unset( $dom );
+
 		// halt if loading produces an error
 		if ( ! $xml )
 			return new WP_Error( 'SimpleXML_parse_error', __( 'There was an error when reading this WXR file', 'wordpress-importer' ), libxml_get_errors() );
@@ -462,11 +479,20 @@ class WXR_Parser_Regex {
 	}
 
 	function get_tag( $string, $tag ) {
-		global $wpdb;
 		preg_match( "|<$tag.*?>(.*?)</$tag>|is", $string, $return );
 		if ( isset( $return[1] ) ) {
-			$return = preg_replace( '|^<!\[CDATA\[(.*)\]\]>$|s', '$1', $return[1] );
-			$return = $wpdb->escape( trim( $return ) );
+			if ( substr( $return[1], 0, 9 ) == '<![CDATA[' ) {
+				if ( strpos( $return[1], ']]]]><![CDATA[>' ) !== false ) {
+					preg_match_all( '|<!\[CDATA\[(.*?)\]\]>|s', $return[1], $matches );
+					$return = '';
+					foreach( $matches[1] as $match )
+						$return .= $match;
+				} else {
+					$return = preg_replace( '|^<!\[CDATA\[(.*)\]\]>$|s', '$1', $return[1] );
+				}
+			} else {
+				$return = $return[1];
+			}
 		} else {
 			$return = '';
 		}
@@ -527,7 +553,7 @@ class WXR_Parser_Regex {
 		$menu_order     = $this->get_tag( $post, 'wp:menu_order' );
 		$post_type      = $this->get_tag( $post, 'wp:post_type' );
 		$post_password  = $this->get_tag( $post, 'wp:post_password' );
-		$is_sticky		= $this->get_tag( $post, 'wp:is_sticky' );
+		$is_sticky      = $this->get_tag( $post, 'wp:is_sticky' );
 		$guid           = $this->get_tag( $post, 'guid' );
 		$post_author    = $this->get_tag( $post, 'dc:creator' );
 

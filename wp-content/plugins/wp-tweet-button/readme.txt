@@ -1,6 +1,6 @@
 === WP Tweet Button ===
 Contributors: 0xTC
-Tags: twitter, tweet button, retweet, tweet, autotweet, WP Tweet Button, advanced, tweeting, social media, button, SEO, share, shortener, goo.gl, awe.sm, b2l.me, bit.ly, cli.gs, sl.ly, snipr, su.pr, tinyurl, analytics, google analytics, campaign, campaign tracking, auto tweeting, auto posts, auto tweet, android
+Tags: twitter, tweet button, tweet, autotweet, tweeting, social media, button, SEO, share, shortener, analytics, auto tweet
 Requires at least: 3.0
 Tested up to: 3.1.2
 Stable tag: trunk
